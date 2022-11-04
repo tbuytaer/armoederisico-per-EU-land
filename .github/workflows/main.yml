@@ -1,0 +1,30 @@
+name: Armoedecijfers downloaden
+on:
+  schedule:
+    - cron: '30 * * * *'
+  workflow_dispatch:
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: stap 1
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1                                                                 
+      - name: stap 2 - python 3.8
+        uses: actions/setup-python@v2                               
+        with:                                 
+          python-version: '3.8'                                                   
+      - name: python libraries
+        run: pip install -r requirements.txt
+      - name: script uitvoeren
+        run: python armoederisico.py
+      - name: Commit in git
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Nieuwe gegevens: ${timestamp}" || exit 0
+          git push
