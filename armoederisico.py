@@ -1,12 +1,6 @@
 import pandas as pd
 import os
 
-# Check of de map reeds bestaat, en maak hem eventueel aan.
-outputPath = "data/data_bewerkt/economy/"
-if not os.path.exists(outputPath):
-    print("Making directory", outputPath)
-    os.makedirs(outputPath)
-
 df_url = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?file=data/ilc_peps01n.tsv.gz"
 # Dit bestand gebruikt zowel komma als tab om kolommen te scheiden.
 df = pd.read_csv(df_url, sep="\t|,", engine="python", compression="gzip")
